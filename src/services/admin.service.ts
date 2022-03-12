@@ -1,10 +1,10 @@
-import positionModel, { Position } from "../model/position.model"
+import userModel from "../model/user.model";
 import {CrudService} from "./CRUD"
 
 export class AdminService extends CrudService{
     constructor(){
         super()
-        this.model=(positionModel as any);
+        this.model=(userModel as any);
     }
 } 
 

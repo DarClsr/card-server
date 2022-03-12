@@ -39,26 +39,48 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createHandler = void 0;
-var admin_service_1 = __importDefault(require("../services/admin.service"));
+exports.logoutHandler = exports.LoginHandler = void 0;
+var admin_model_1 = __importDefault(require("../model/admin.model"));
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var bcrypt_1 = __importDefault(require("bcrypt"));
-var createHandler = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var params, user;
+require("dotenv/config");
+var LoginHandler = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var body, user, isPasswordValid, token;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                console.log(req.body);
-                params = {
-                    account: req.body.account,
-                    password: bcrypt_1.default.hashSync(req.body.password, 10)
-                };
-                console.log(params);
-                return [4 /*yield*/, admin_service_1.default.create(params)];
+                body = req.body;
+                return [4 /*yield*/, admin_model_1.default.findOne({ account: body.account })];
             case 1:
                 user = _a.sent();
-                res.send(user);
+                if (!user) {
+                    return [2 /*return*/, res.status(422).send({
+                            msg: '用户名不存在'
+                        })];
+                }
+                isPasswordValid = bcrypt_1.default.compareSync(req.body.password, user.password);
+                if (!isPasswordValid) {
+                    return [2 /*return*/, res.status(422).send({
+                            msg: '密码有误'
+                        })];
+                }
+                token = process.env.TOKEN_KEY && jsonwebtoken_1.default.sign({
+                    id: String(user._id)
+                }, process.env.TOKEN_KEY) // 参数2：应该写在环境变量里面，不应该放在代码库中
+                ;
+                res.send({
+                    user: user,
+                    token: token
+                });
                 return [2 /*return*/];
         }
     });
 }); };
-exports.createHandler = createHandler;
+exports.LoginHandler = LoginHandler;
+var logoutHandler = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        res.sendStatus(200);
+        return [2 /*return*/];
+    });
+}); };
+exports.logoutHandler = logoutHandler;

@@ -4,15 +4,17 @@ import router from "./routes";
 import { connectDb } from "./utils/db";
 import morgan from "morgan"
 import cors from "cors";
+import bodyparser from "body-parser"
 import {handlerError} from "./middleware/error-handler"
 connectDb();
 const server=express();
 
 server.use(morgan("dev"))
 server.use(express.json()); 
-server.use(cors)
+server.use(bodyparser.json())
+server.use(cors())
 
-server.use("/admin/api",router)
+server.use("/admin/api/",router)
 
 
 server.use(handlerError)

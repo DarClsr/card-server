@@ -1,10 +1,18 @@
 
 import {Request,Response} from "express"
 import adminService from "../services/admin.service"
+import bcrypt from "bcrypt"
 
  const createHandler=async (req:Request,res:Response)=>{
-     const posDoc=await adminService.create(req.body)
-      res.send(posDoc)
+     console.log(req.body)
+     
+     const params={
+         account:req.body.account,
+         password:bcrypt.hashSync(req.body.password,10)
+     }
+     console.log(params)
+     const user=await adminService.create(params)
+      res.send(user)
 }
 
 export  {

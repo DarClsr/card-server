@@ -12,14 +12,14 @@ var User = /** @class */ (function () {
     function User() {
     }
     __decorate([
-        (0, typegoose_1.prop)({ required: true, type: String })
+        (0, typegoose_1.prop)({ type: String })
     ], User.prototype, "nick_name", void 0);
     __decorate([
         (0, typegoose_1.prop)({ required: true, type: String })
     ], User.prototype, "account", void 0);
     __decorate([
         (0, typegoose_1.prop)({ required: true, type: String })
-    ], User.prototype, "name", void 0);
+    ], User.prototype, "password", void 0);
     User = __decorate([
         (0, typegoose_1.ModelOptions)({})
     ], User);

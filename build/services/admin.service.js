@@ -19,13 +19,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminService = void 0;
-var position_model_1 = __importDefault(require("../model/position.model"));
+var user_model_1 = __importDefault(require("../model/user.model"));
 var CRUD_1 = require("./CRUD");
 var AdminService = /** @class */ (function (_super) {
     __extends(AdminService, _super);
     function AdminService() {
         var _this = _super.call(this) || this;
-        _this.model = position_model_1.default;
+        _this.model = user_model_1.default;
         return _this;
     }
     return AdminService;
