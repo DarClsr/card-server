@@ -13,12 +13,10 @@ var verifyToken = function (req, res, next) {
             msg: "身份验证需要令牌"
         });
     }
-    console.log(token);
     try {
         if (!process.env.TOKEN_KEY)
             return false;
         var payload = jsonwebtoken_1.default.verify(token, process.env.TOKEN_KEY);
-        console.log(payload);
         req.userId = payload === null || payload === void 0 ? void 0 : payload.id;
     }
     catch (err) {

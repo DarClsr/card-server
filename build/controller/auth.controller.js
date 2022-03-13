@@ -39,11 +39,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logoutHandler = exports.LoginHandler = void 0;
+exports.preUpload = exports.createZip = exports.verifyDiskToken = exports.verifyDisk = exports.logoutHandler = exports.LoginHandler = void 0;
 var admin_model_1 = __importDefault(require("../model/admin.model"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var bcrypt_1 = __importDefault(require("bcrypt"));
 require("dotenv/config");
+var auth_service_1 = __importDefault(require("./../services/auth.service"));
 var LoginHandler = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var body, user, isPasswordValid, token;
     return __generator(this, function (_a) {
@@ -84,3 +85,66 @@ var logoutHandler = function (req, res) { return __awaiter(void 0, void 0, void 
     });
 }); };
 exports.logoutHandler = logoutHandler;
+var verifyDisk = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var url;
+    return __generator(this, function (_a) {
+        url = auth_service_1.default.getDiskCode();
+        console.log(url);
+        res.redirect("diskToken");
+        return [2 /*return*/];
+    });
+}); };
+exports.verifyDisk = verifyDisk;
+/**
+ *
+ * 获取百度网盘的token
+ */
+var verifyDiskToken = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, auth_service_1.default.getAccessToken()];
+            case 1:
+                data = _a.sent();
+                res.json(data);
+                return [2 /*return*/];
+        }
+    });
+}); };
+exports.verifyDiskToken = verifyDiskToken;
+/**
+ *
+ * 压缩文件
+ */
+var createZip = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                console.log("zip info");
+                return [4 /*yield*/, auth_service_1.default.createZip()];
+            case 1:
+                _a.sent();
+                res.sendStatus(200);
+                return [2 /*return*/];
+        }
+    });
+}); };
+exports.createZip = createZip;
+/**
+ *
+ * 预上传文件
+ */
+var preUpload = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                console.log("preupload info");
+                return [4 /*yield*/, auth_service_1.default.preUploadFile()];
+            case 1:
+                _a.sent();
+                res.sendStatus(200);
+                return [2 /*return*/];
+        }
+    });
+}); };
+exports.preUpload = preUpload;

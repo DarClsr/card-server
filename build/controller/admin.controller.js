@@ -47,12 +47,10 @@ var createHandler = function (req, res) { return __awaiter(void 0, void 0, void 
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                console.log(req.body);
                 params = {
                     account: req.body.account,
                     password: bcrypt_1.default.hashSync(req.body.password, 10)
                 };
-                console.log(params);
                 return [4 /*yield*/, admin_service_1.default.create(params)];
             case 1:
                 user = _a.sent();
